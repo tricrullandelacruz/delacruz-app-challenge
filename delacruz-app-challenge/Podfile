@@ -1,0 +1,21 @@
+platform :ios, '12.0'
+
+use_frameworks!
+inhibit_all_warnings!
+
+def pods
+  # Pods for delacruz-app-challenge
+  pod 'Alamofire'
+  pod 'KeychainAccess'
+  pod 'Moya'
+  pod 'Repeat'
+  pod 'R.swift'
+  pod 'SnapKit'
+  pod 'SVProgressHUD'
+  pod 'Swinject'
+  pod 'SwinjectStoryboard'
+end
+
+target 'delacruz-app-challenge' do
+  pods
+end
