@@ -14,6 +14,8 @@ extension Scene {
     switch self {
     case .movieList:
       return movieListController()
+    case .movieDetails:
+      return movieDetailsController()
     }
   }
 }
@@ -24,4 +26,10 @@ private extension Scene {
     let controller = resolve(MovieListViewController.self)
     return controller
   }
+  
+  func movieDetailsController() -> UIViewController {
+    let controller = resolve(MovieDetailsViewController.self)
+    return controller
+  }
+  
 }

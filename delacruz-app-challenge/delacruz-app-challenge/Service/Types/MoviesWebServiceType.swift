@@ -13,6 +13,10 @@ protocol MoviesWebServiceType {
             success: RequestSuccessClosure<MovieListResponse>?,
             failure: RequestFailureClosure?)
   
+  func details(parameter: MovieDetailsParameter,
+            success: RequestSuccessClosure<MovieDetailsResponse>?,
+            failure: RequestFailureClosure?)
+  
 }
 
 struct MoviesWebService: MoviesWebServiceType {
@@ -26,7 +30,15 @@ struct MoviesWebService: MoviesWebServiceType {
   func list(parameter: MovieListParameter,
             success: RequestSuccessClosure<MovieListResponse>?,
             failure: RequestFailureClosure?) {
-    service.requestObject(path: .movieList(parameter: parameter),
+    service.requestObject(path: .list(parameter: parameter),
+                          success: success,
+                          failure: failure)
+  }
+  
+  func details(parameter: MovieDetailsParameter,
+            success: RequestSuccessClosure<MovieDetailsResponse>?,
+               failure: RequestFailureClosure?) {
+    service.requestObject(path: .details(parameter: parameter),
                           success: success,
                           failure: failure)
   }

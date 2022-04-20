@@ -10,5 +10,5 @@ import Foundation
 
 enum Scene {
   case movieList
-
+  case movieDetails
 }

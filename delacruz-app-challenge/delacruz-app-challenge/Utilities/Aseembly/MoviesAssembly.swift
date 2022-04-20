@@ -21,6 +21,15 @@ struct MoviesAssembly: Assembly {
       return vc as! MovieListViewController
     }
     
+    container.register(MovieDetailsViewController.self) {  _ in
+      let sb = SwinjectStoryboard.create(name: R.storyboard.main.name,
+                                         bundle: nil,
+                                         container: container)
+      let vc = sb.instantiateViewController(withIdentifier: R.storyboard.main.movieDetailsViewController.identifier)
+      return vc as! MovieDetailsViewController
+    }
+
+    
   }
   
 }

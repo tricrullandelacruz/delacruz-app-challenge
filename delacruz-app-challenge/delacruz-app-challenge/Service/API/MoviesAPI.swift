@@ -8,7 +8,8 @@
 import Moya
 
 enum MoviesAPI {
-  case movieList(parameter: MovieListParameter)
+  case list(parameter: MovieListParameter)
+  case details(parameter: MovieDetailsParameter)
 }
 
 extension MoviesAPI: TargetType {
@@ -19,14 +20,14 @@ extension MoviesAPI: TargetType {
   
   var path: String {
     switch self {
-    case .movieList:
+    case .list, .details:
       return ""
     }
   }
   
   var method: Moya.Method {
     switch self {
-    case .movieList:
+    case .list, .details:
       return .get
     }
   }
@@ -37,21 +38,23 @@ extension MoviesAPI: TargetType {
   
   var task: Task {
     switch self {
-    case .movieList:
+    case .list, .details:
       return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
     }
   }
   
   var headers: [String : String]? {
     switch self {
-    case .movieList:
+    case .list, .details:
       return nil
     }
   }
   
   private var parameters: [String: Any] {
     switch self {
-    case let .movieList(parameter):
+    case let .list(parameter):
+      return (try? parameter.asDictionary()) ?? [:]
+    case let .details(parameter):
       return (try? parameter.asDictionary()) ?? [:]
     }
   }

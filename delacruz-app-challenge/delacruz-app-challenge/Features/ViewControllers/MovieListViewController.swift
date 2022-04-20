@@ -7,21 +7,18 @@
 
 import UIKit
 
-class MovieListViewController: UIViewController {
+class MovieListViewController: BaseViewController {
   
   @IBOutlet weak private var collectionView: UICollectionView!
   
   var viewModel: MovieListViewModelType!
   
-  // MARK: - Properties
-  private let reuseIdentifier = "MoviesListCollectionViewCell"
   private let sectionInsets = UIEdgeInsets(
     top: 50.0,
     left: 20.0,
     bottom: 50.0,
     right: 20.0)
   private let itemsPerRow: CGFloat = 2
-  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -30,17 +27,17 @@ class MovieListViewController: UIViewController {
     bindViewModel()
   }
   
-  
 }
 
 private extension MovieListViewController {
   func bindViewModel() {
     viewModel = MovieListViewModel()
     viewModel.delegate = self
-    viewModel.getMoviesListAPI()
+    viewModel.getMoviesListAPI(showLoadingView: true)
   }
   
   func configureViews() {
+    title = R.string.localizable.filmList()
     collectionView.register(R.nib.moviesListCollectionViewCell.self)
   }
 }
@@ -68,8 +65,14 @@ extension MovieListViewController: UICollectionViewDataSource {
     return cell
   }
   
+  func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    guard indexPath.row >= viewModel.sectionModels[indexPath.section].items.count - 1 else { return }
+    viewModel.getMoviesListAPI(showLoadingView: false)
+  }
+  
   func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-    print(indexPath)
+    guard let scene = Scene.movieDetails.viewController() as? MovieDetailsViewController else { return }
+    navigationController?.pushViewController(scene, animated: true)
   }
 }
 
@@ -96,15 +99,21 @@ extension MovieListViewController: UICollectionViewDelegateFlowLayout {
     return sectionInsets.left
   }
   
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-      return 8
-  }
 }
 
 extension MovieListViewController: MovieListViewModelDelegate {
-  
-  func movieListViewModelNeedsReloadData(_ viewModel: MovieListViewModelType) {
-    collectionView.reloadData()
+  func movieListViewModelShowLoadingView(_ viewModel: MovieListViewModelType) {
+    showLoadingView()
   }
   
+  func movieListViewModelDismissLoadingView(_ viewModel: MovieListViewModelType) {
+    dismissLoadingView()
+  }
+  
+  func movieListViewModelNeedsReloadData(_ viewModel: MovieListViewModelType) {
+    DispatchQueue.main.async {
+      self.collectionView.reloadData()
+      self.dismissLoadingView()
+    }
+  }
 }

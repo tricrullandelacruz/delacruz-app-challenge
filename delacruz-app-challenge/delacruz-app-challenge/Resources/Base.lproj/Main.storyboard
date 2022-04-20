@@ -32,7 +32,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fcW-Ug-LD1">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fcW-Ug-LD1">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="PiA-QJ-k4B">
@@ -65,6 +65,33 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i7p-T0-iLn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="665" y="33"/>
+        </scene>
+        <!--Movie Details View Controller-->
+        <scene sceneID="TDS-zq-NQ2">
+            <objects>
+                <viewController storyboardIdentifier="MovieDetailsViewController" id="5lZ-nP-SSO" customClass="MovieDetailsViewController" customModule="delacruz_app_challenge" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bt-Nd-joz">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="5G1-gS-6Gf">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Ydm-6N-65W"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="5G1-gS-6Gf" firstAttribute="top" secondItem="Ydm-6N-65W" secondAttribute="top" id="9jq-uf-sbh"/>
+                            <constraint firstItem="Ydm-6N-65W" firstAttribute="bottom" secondItem="5G1-gS-6Gf" secondAttribute="bottom" id="Afb-tg-Osb"/>
+                            <constraint firstItem="5G1-gS-6Gf" firstAttribute="leading" secondItem="Ydm-6N-65W" secondAttribute="leading" id="Lxm-zh-lCZ"/>
+                            <constraint firstItem="Ydm-6N-65W" firstAttribute="trailing" secondItem="5G1-gS-6Gf" secondAttribute="trailing" id="ckf-HG-8oq"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tef-YO-JV7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1455" y="33"/>
         </scene>
     </scenes>
     <resources>

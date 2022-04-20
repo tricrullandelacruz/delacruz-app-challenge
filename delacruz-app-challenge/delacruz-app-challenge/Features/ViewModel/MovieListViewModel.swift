@@ -9,6 +9,8 @@ import Foundation
 
 protocol MovieListViewModelDelegate {
   func movieListViewModelNeedsReloadData(_ viewModel: MovieListViewModelType)
+  func movieListViewModelShowLoadingView(_ viewModel: MovieListViewModelType)
+  func movieListViewModelDismissLoadingView(_ viewModel: MovieListViewModelType)
 }
 
 protocol MovieListViewModelType {
@@ -16,7 +18,7 @@ protocol MovieListViewModelType {
   var delegate: MovieListViewModelDelegate? { get set }
   
   func itemModel(at indexPath: IndexPath) -> MovieSectionItemModel?
-  func getMoviesListAPI()
+  func getMoviesListAPI(showLoadingView: Bool)
   
 }
 
@@ -30,14 +32,22 @@ class MovieListViewModel: MovieListViewModelType {
     return sectionModels[indexPath.section].items[indexPath.row]
   }
   
-  func getMoviesListAPI() {
-    let parameter = MovieListParameter(page: 1)
+  func getMoviesListAPI(showLoadingView: Bool) {
+    
+    if showLoadingView {
+      delegate?.movieListViewModelShowLoadingView(self)
+      page = 1
+    } else {
+      page += 1
+    }
+    
+    let parameter = MovieListParameter(page: page)
     moviesWebServiceType.list(parameter: parameter, success: { [weak self] response in
       guard let self = self,
             let response = response,
             let search = response.search else { return }
       
-      self.movieList = search
+      self.movieList += search
       self.sectionModels = self.updateSectionModels()
     }, failure: { error in
       
@@ -53,6 +63,7 @@ class MovieListViewModel: MovieListViewModelType {
   var delegate: MovieListViewModelDelegate?
   
   private var movieList = [SearchResponse]()
+  private var page: Int = 0
 }
 
 private extension MovieListViewModel {
