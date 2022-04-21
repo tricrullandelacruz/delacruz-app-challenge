@@ -20,7 +20,7 @@ protocol MovieListViewModelType {
   
   func movie(at indexPath: IndexPath) -> SearchResponse?
   func itemModel(at indexPath: IndexPath) -> MovieSectionItemModel?
-  func getMoviesListAPI(showLoadingView: Bool)
+  func getMoviesListAPI(isNextPage: Bool)
   
 }
 
@@ -41,10 +41,9 @@ class MovieListViewModel: MovieListViewModelType {
     return itemModel.movie
   }
   
-  func getMoviesListAPI(showLoadingView: Bool) {
-    
-    if showLoadingView {
-      delegate?.movieListViewModelShowLoadingView(self)
+  func getMoviesListAPI(isNextPage: Bool) {
+    delegate?.movieListViewModelShowLoadingView(self)
+    if !isNextPage {
       page = 1
     } else {
       page += 1

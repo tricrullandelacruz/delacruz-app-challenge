@@ -33,7 +33,7 @@ private extension MovieListViewController {
   func bindViewModel() {
     viewModel = MovieListViewModel()
     viewModel.delegate = self
-    viewModel.getMoviesListAPI(showLoadingView: true)
+    viewModel.getMoviesListAPI(isNextPage: false)
   }
   
   func configureViews() {
@@ -67,7 +67,7 @@ extension MovieListViewController: UICollectionViewDataSource {
   
   func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
     guard indexPath.row >= viewModel.sectionModels[indexPath.section].items.count - 1 else { return }
-    viewModel.getMoviesListAPI(showLoadingView: false)
+    viewModel.getMoviesListAPI(isNextPage: true)
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
