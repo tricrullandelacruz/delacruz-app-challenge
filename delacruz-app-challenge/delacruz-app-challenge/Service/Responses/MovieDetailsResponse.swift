@@ -22,10 +22,11 @@ struct MovieDetailsResponse {
   let country: String
   let awards: String
   let poster: String
-  let ratings: MovieDetailsRatingsResponse?
+  let ratings: [MovieDetailsRatingsResponse]?
   let metascore: String
   let imdbRating: String
   let imdbID: String
+  let imdbVotes: String
   let type: String
   let dvd: String
   let boxOffice: String
@@ -51,9 +52,10 @@ extension MovieDetailsResponse: Decodable {
     case awards = "Awards"
     case poster = "Poster"
     case ratings = "Ratings"
-    case metascore = "Metacore"
+    case metascore = "Metascore"
     case imdbRating
     case imdbID
+    case imdbVotes
     case type = "Type"
     case dvd = "DVD"
     case boxOffice = "BoxOffice"
@@ -78,10 +80,11 @@ extension MovieDetailsResponse: Decodable {
     country = try container.decodeIfPresent(String.self, forKey: .country) ?? ""
     awards = try container.decodeIfPresent(String.self, forKey: .awards) ?? ""
     poster = try container.decodeIfPresent(String.self, forKey: .poster) ?? ""
-    ratings = try container.decodeIfPresent(MovieDetailsRatingsResponse.self, forKey: .ratings)
+    ratings = try container.decodeIfPresent([MovieDetailsRatingsResponse].self, forKey: .ratings)
     metascore = try container.decodeIfPresent(String.self, forKey: .metascore) ?? ""
     imdbRating = try container.decodeIfPresent(String.self, forKey: .imdbRating) ?? ""
     imdbID = try container.decodeIfPresent(String.self, forKey: .imdbID) ?? ""
+    imdbVotes = try container.decodeIfPresent(String.self, forKey: .imdbVotes) ?? ""
     type = try container.decodeIfPresent(String.self, forKey: .type) ?? ""
     dvd = try container.decodeIfPresent(String.self, forKey: .dvd) ?? ""
     boxOffice = try container.decodeIfPresent(String.self, forKey: .boxOffice) ?? ""

@@ -31,11 +31,8 @@ struct WebService<U: TargetType>: WebServiceType {
     self.provider.request(path) { result in
       switch result {
       case let .success(response):
-        print("URL: \(response.request?.url)")
-        print("HTTP BODY: \(response.request?.httpBody)")
         do {
           let jsonResponse = try? JSONSerialization.jsonObject(with: response.data, options: [])
-          print(jsonResponse)
                     
           guard let status = response.response?.allHeaderFields["Status"] as? String,
             status == "401 Unauthorized" else {
@@ -49,7 +46,6 @@ struct WebService<U: TargetType>: WebServiceType {
         } catch {
           do {
             let object = try JSONDecoder().decode(APIErrorResponse.self, from: response.data)
-            // print(response.response?.allHeaderFields["Status"])
             failure?(WebServiceError.api(object))
           } catch {
             failure?(WebServiceError.mapping)
@@ -67,7 +63,6 @@ struct WebService<U: TargetType>: WebServiceType {
       case let .success(response):
         do {
           let jsonResponse = try? JSONSerialization.jsonObject(with: response.data, options: [])
-          // print(jsonResponse)
           
           guard let status = response.response?.allHeaderFields["Status"] as? String,
                 status == "401 Unauthorized" else {
@@ -80,8 +75,6 @@ struct WebService<U: TargetType>: WebServiceType {
         } catch {
           do {
             let object = try JSONDecoder().decode(APIErrorResponse.self, from: response.data)
-            
-            // print(response.response?.allHeaderFields["Status"])
             failure?(WebServiceError.api(object))
           } catch {
             failure?(WebServiceError.mapping)

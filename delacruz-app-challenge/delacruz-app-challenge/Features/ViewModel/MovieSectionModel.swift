@@ -14,6 +14,8 @@ struct MovieSectionModel {
 
 enum MovieSectionItemModel {
   case list(viewModel: MovieListCollectionCellViewModelType)
+  case details(viewModel: MovieDetailsTableCellViewModelType)
+  case detailsInfo(viewModel: MovieDetailsInfoTableCellViewModelType)
 }
 
 extension MovieSectionItemModel {
@@ -22,6 +24,11 @@ extension MovieSectionItemModel {
     switch self {
     case .list:
       return R.nib.moviesListCollectionViewCell.identifier
+    case .details:
+      return R.nib.movieDetailsTableViewCell.identifier
+    case .detailsInfo:
+      return R.nib.movieDetailsInfoTableViewCell.identifier
+
     }
 
   }
@@ -29,6 +36,10 @@ extension MovieSectionItemModel {
   func viewModel<T>() -> T {
     switch self {
     case let .list(viewModel):
+      return viewModel as! T
+    case let .details(viewModel):
+      return viewModel as! T
+    case let .detailsInfo(viewModel):
       return viewModel as! T
     }
   }

@@ -14,10 +14,10 @@ class MovieListViewController: BaseViewController {
   var viewModel: MovieListViewModelType!
   
   private let sectionInsets = UIEdgeInsets(
-    top: 50.0,
-    left: 20.0,
-    bottom: 50.0,
-    right: 20.0)
+    top: 30.0,
+    left: 10.0,
+    bottom: 30.0,
+    right: 10.0)
   private let itemsPerRow: CGFloat = 2
   
   override func viewDidLoad() {
@@ -70,10 +70,17 @@ extension MovieListViewController: UICollectionViewDataSource {
     viewModel.getMoviesListAPI(showLoadingView: false)
   }
   
-  func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-    guard let scene = Scene.movieDetails.viewController() as? MovieDetailsViewController else { return }
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    guard let scene = Scene.movieDetails.viewController() as? MovieDetailsViewController,
+          let movie = viewModel.movie(at: indexPath) else { return }
+    
+    collectionView.deselectItem(at: indexPath, animated: true)
+    
+    let viewModel = MovieDetailsViewModel(movie: movie)
+    scene.viewModel = viewModel
     navigationController?.pushViewController(scene, animated: true)
   }
+  
 }
 
 extension MovieListViewController: UICollectionViewDelegateFlowLayout {
@@ -83,8 +90,8 @@ extension MovieListViewController: UICollectionViewDelegateFlowLayout {
     let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
     let availableWidth = view.frame.width - paddingSpace
     let widthPerItem = availableWidth / itemsPerRow
-    
-    return CGSize(width: widthPerItem, height: widthPerItem)
+
+    return CGSize(width: widthPerItem, height: widthPerItem * 1.5)
   }
   
   func collectionView(_ collectionView: UICollectionView,

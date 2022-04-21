@@ -17,6 +17,8 @@ protocol MovieListViewModelType {
   var sectionModels: [MovieSectionModel] { get }
   var delegate: MovieListViewModelDelegate? { get set }
   
+  
+  func movie(at indexPath: IndexPath) -> SearchResponse?
   func itemModel(at indexPath: IndexPath) -> MovieSectionItemModel?
   func getMoviesListAPI(showLoadingView: Bool)
   
@@ -30,6 +32,13 @@ class MovieListViewModel: MovieListViewModelType {
   
   func itemModel(at indexPath: IndexPath) -> MovieSectionItemModel? {
     return sectionModels[indexPath.section].items[indexPath.row]
+  }
+  
+  func movie(at indexPath: IndexPath) -> SearchResponse? {
+    let item = sectionModels[indexPath.section].items[indexPath.row]
+    guard let itemModel: MovieListCollectionCellViewModel = item.viewModel() else { return nil }
+   
+    return itemModel.movie
   }
   
   func getMoviesListAPI(showLoadingView: Bool) {
@@ -72,14 +81,17 @@ private extension MovieListViewModel {
     var sectionModels = [MovieSectionModel]()
     var items = [MovieSectionItemModel]()
     
+    var index = 0
     for movie in movieList {
-      let model = MovieListCollectionCellViewModel(movie: movie)
+      let model = MovieListCollectionCellViewModel(movie: movie,
+      index: index)
       items.append(.list(viewModel: model))
+      
+      index += 1
     }
     
     sectionModels.append(MovieSectionModel(items: items))
-    
-    print(sectionModels)
+
     return sectionModels
   }
   

@@ -11,6 +11,7 @@ import Alamofire
 class MoviesListCollectionViewCell: UICollectionViewCell {
   
   @IBOutlet weak private var imageView: UIImageView!
+  @IBOutlet weak private var titleLabel: UILabel!
   
   var viewModel: MovieListCollectionCellViewModelType!
   
@@ -24,9 +25,13 @@ class MoviesListCollectionViewCell: UICollectionViewCell {
 extension MoviesListCollectionViewCell: BindableType, MovieSectionItemModelBindableType {
   
   func bindViewModel() {
+    titleLabel.text = viewModel.title
     
-    if let url = URL(string: viewModel.imageURL) {
-      imageView.load(url: url)
+    if let url = URL(string: viewModel.imageURL),
+       let data = try? Data(contentsOf: url) {
+      imageView.image = UIImage(data: data)// Error here
+    } else {
+      imageView.image = R.image.photoPlaceholder()
     }
  
   }
